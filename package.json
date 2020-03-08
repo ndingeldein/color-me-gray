@@ -10,9 +10,11 @@
   "dependencies": {
     "gridsome": "^0.7.0",
     "typeface-roboto": "^0.0.75",
+    "vue-input-autowidth": "^1.0.10",
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
+    "@fortawesome/vue-fontawesome": "^0.1.9",
     "@vue/cli-plugin-eslint": "^4.2.3",
     "@vue/cli-service": "^4.2.3",
     "@vue/eslint-config-prettier": "^6.0.0",
