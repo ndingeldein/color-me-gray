@@ -1,0 +1,26 @@
+{
+  "name": "color-me-gray",
+  "private": true,
+  "scripts": {
+    "build": "gridsome build",
+    "develop": "gridsome develop",
+    "explore": "gridsome explore",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "gridsome": "^0.7.0",
+    "typeface-roboto": "^0.0.75",
+    "vuelidate": "^0.7.5"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-eslint": "^4.2.3",
+    "@vue/cli-service": "^4.2.3",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-vue": "^6.2.1",
+    "gridsome-plugin-tailwindcss": "^2.2.40",
+    "prettier": "^1.19.1"
+  }
+}
