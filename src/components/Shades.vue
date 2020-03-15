@@ -137,7 +137,7 @@ export default {
       let sat = Math.round((Math.abs(i - 5) / 4) * 30 + 15)
       let shade = {
         title: 'Gray',
-        value: i * 100,
+        value: (10 - i) * 100,
         hue: hexToHsl(this.color).hue,
         saturation: sat,
         lightness: i * 10
