@@ -1,12 +1,14 @@
 <template>
-  <div class="rounded bg-white shadow-lg px-6 py-4 mb-4 inline-block">
-    <span class="text-md mr-2 italic font-medium text-gray-800">
+  <div
+    class="rounded bg-white shadow-lg px-6 py-4 mb-4 flex justify-center text-xl flex-col"
+  >
+    <!-- <span class="text-md mr-2 italic font-medium text-gray-800">
       Select Color:
-    </span>
+    </span> -->
     <input
       v-model.lazy.trim="inputColor"
       type="text"
-      class="w-24 border rounded text-gray-600 leading-loose px-2 py-1 text-center"
+      class="w-32 border rounded text-gray-600 leading-loose px-2 py-1 text-center"
       placeholder="#xxxxxx"
       @change="onChange"
     />

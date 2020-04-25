@@ -8,28 +8,31 @@
       <div class="font-semibold text-sm">{{ value }}</div>
       <div class="mt-1 font-normal opacity-75 text-xs is-flex">
         <input
-          v-model="dataHue"
+          v-model.number="dataHue"
           v-autowidth="{ maxWidth: '100px', minWidth: '10px', comfortZone: 2 }"
           type="text"
           class="outline-none inline-block focus:bg-gray-300 focus:text-gray-900 focus:font-bold mr-1"
           @keydown.up="incrementHue"
           @keydown.down="decrementHue"
+          @change="updateHue"
         />
         <input
-          v-model="dataSaturation"
+          v-model.number="dataSaturation"
           v-autowidth="{ maxWidth: '100px', minWidth: '10px', comfortZone: 2 }"
           type="text"
           class="outline-none inline-block focus:bg-gray-300 focus:font-bold"
           @keydown.up="incrementSaturation"
           @keydown.down="decrementSaturation"
+          @change="updateSaturation"
         /><span class="is-inline-block select-none -ml-1 mr-2">%</span>
         <input
-          v-model="dataLightness"
+          v-model.number="dataLightness"
           v-autowidth="{ maxWidth: '100px', minWidth: '10px', comfortZone: 2 }"
           type="text"
           class="outline-none inline-block focus:bg-gray-300 focus:font-bold"
           @keydown.up="incrementLightness"
           @keydown.down="decrementLightness"
+          @change="updateLightness"
         /><span class="is-inline-block select-none -ml-1">%</span>
       </div>
     </div>
@@ -82,6 +85,12 @@ export default {
     }
   },
   methods: {
+    updateHue() {
+      this.$emit('hue-updated', {
+        value: this.value,
+        hue: this.dataHue
+      })
+    },
     incrementHue() {
       if (this.dataHue < 360) {
         this.dataHue++
@@ -100,6 +109,12 @@ export default {
         })
       }
     },
+    updateSaturation() {
+      this.$emit('saturation-updated', {
+        value: this.value,
+        hue: this.dataSaturation
+      })
+    },
     incrementSaturation() {
       if (this.dataSaturation < 100) {
         this.dataSaturation++
@@ -117,6 +132,12 @@ export default {
           saturation: this.dataSaturation
         })
       }
+    },
+    updateLightness() {
+      this.$emit('lightness-updated', {
+        value: this.value,
+        hue: this.dataLightness
+      })
     },
     incrementLightness() {
       if (this.dataLightness < 100) {

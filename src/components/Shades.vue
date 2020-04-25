@@ -3,6 +3,55 @@
     <div class="w-full rounded bg-white shadow-lg px-4 pt-4 pb-6 mb-4 relative">
       <h2 class="font-medium mb-2">
         <input
+          v-model="primaryTitle"
+          v-autowidth="{ maxWidth: '300px', minWidth: '20px', comfortZone: 0 }"
+          class="font-medium text-lg text-gray-800 p-2 inline-block mr-2 w-auto outline-none focus:bg-gray-200"
+        />
+        <span class="text-gray-500 inline-block p-2 mr-2 text-sm">{{
+          hslFull
+        }}</span>
+        <span class="text-gray-500 inline-block p-2 text-sm mr-2">{{
+          color
+        }}</span>
+      </h2>
+      <div class="flex justify-between">
+        <ColorBox
+          v-for="shade in primaryShades"
+          :key="shade.title"
+          :title="shade.title"
+          :value="shade.value"
+          :hue="shade.hue"
+          :saturation="shade.saturation"
+          :lightness="shade.lightness"
+          @hue-updated="onPrimaryHueUpdated"
+          @saturation-updated="onPrimarySaturationUpdated"
+          @lightness-updated="onPrimaryLightnessUpdated"
+        ></ColorBox>
+      </div>
+      <div
+        class="close text-gray-400 hover:text-gray-800 absolute p-2 right-0 top-0 cursor-pointer"
+        @click="$emit('close-clicked')"
+      >
+        <svg
+          aria-hidden="true"
+          focusable="false"
+          data-prefix="far"
+          data-icon="times"
+          class="svg-inline--fa fa-times fa-w-10 w-6 h-6"
+          role="img"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 320 512"
+        >
+          <path
+            fill="currentColor"
+            d="M207.6 256l107.72-107.72c6.23-6.23 6.23-16.34 0-22.58l-25.03-25.03c-6.23-6.23-16.34-6.23-22.58 0L160 208.4 52.28 100.68c-6.23-6.23-16.34-6.23-22.58 0L4.68 125.7c-6.23 6.23-6.23 16.34 0 22.58L112.4 256 4.68 363.72c-6.23 6.23-6.23 16.34 0 22.58l25.03 25.03c6.23 6.23 16.34 6.23 22.58 0L160 303.6l107.72 107.72c6.23 6.23 16.34 6.23 22.58 0l25.03-25.03c6.23-6.23 6.23-16.34 0-22.58L207.6 256z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+    <div class="w-full rounded bg-white shadow-lg px-4 pt-4 pb-6 mb-4 relative">
+      <h2 class="font-medium mb-2">
+        <input
           v-model="title"
           v-autowidth="{ maxWidth: '300px', minWidth: '20px', comfortZone: 0 }"
           class="font-medium text-lg text-gray-800 p-2 inline-block mr-2 w-auto outline-none focus:bg-gray-200"
@@ -49,7 +98,7 @@
         </svg>
       </div>
     </div>
-    <ShadeOutputBulma :shades="shades" />
+    <ShadeOutputBulma :shades="shades" :primary-shades="primaryShades" />
   </div>
 </template>
 
@@ -131,22 +180,80 @@ export default {
     }
   },
   data() {
+    let hue = hexToHsl(this.color).hue
+
+    let brightHues = [60, 180, 300]
+    let darkHues = [0, 120, 240]
+    let brightHue = Math.min(
+      ...brightHues.map(bh => {
+        return Math.abs(hue - bh)
+      })
+    )
+
+    let hues
+
+    if (hue - brightHue) {
+      hues = [
+        hue - 6,
+        hue - 5,
+        hue - 4,
+        hue - 2,
+        hue,
+        hue + 2,
+        hue + 4,
+        hue + 5,
+        hue + 6
+      ]
+    } else {
+      hues = [
+        hue + 6,
+        hue + 5,
+        hue + 4,
+        hue + 2,
+        hue,
+        hue - 2,
+        hue - 4,
+        hue - 5,
+        hue - 6
+      ]
+    }
+
+    let saturation = [45, 38, 32, 25, 20, 15, 17, 23, 26]
+    let lightness = [97, 91, 84, 69, 52, 41, 32, 23, 14]
+
+    let primarySaturation = [100, 81, 82, 79, 73, 62, 61, 49, 41]
+    let primaryLightness = [96, 86, 76, 66, 57, 50, 43, 34, 26]
+
     let shades = []
+    let primaryShades = []
     for (var i = 9; i > 0; i--) {
       // saturation: low 15, high 45
-      let sat = Math.round((Math.abs(i - 5) / 4) * 30 + 15)
+      let h = hues[9 - i]
+      h = h > 360 ? 360 : h
+      h = h < 0 ? 0 : h
       let shade = {
-        title: 'Gray',
+        title: 'gray-' + i + '00',
         value: (10 - i) * 100,
-        hue: hexToHsl(this.color).hue,
-        saturation: sat,
-        lightness: i * 10
+        hue: h,
+        saturation: saturation[9 - i],
+        lightness: lightness[9 - i]
       }
       shades.push(shade)
+
+      let primaryShade = {
+        title: 'primary-' + i + '00',
+        value: (10 - i) * 100,
+        hue: h,
+        saturation: primarySaturation[9 - i],
+        lightness: primaryLightness[9 - i]
+      }
+      primaryShades.push(primaryShade)
     }
     return {
       title: 'Gray',
-      shades: shades
+      primaryTitle: 'Primary',
+      shades: shades,
+      primaryShades: primaryShades
     }
   },
   computed: {
@@ -169,6 +276,18 @@ export default {
     },
     onLightnessUpdated({ value, lightness }) {
       let shade = this.shades.find(shade => shade.value === value)
+      shade.lightness = lightness
+    },
+    onPrimaryHueUpdated({ value, hue }) {
+      let shade = this.primaryShades.find(shade => shade.value === value)
+      shade.hue = hue
+    },
+    onPrimarySaturationUpdated({ value, saturation }) {
+      let shade = this.primaryShades.find(shade => shade.value === value)
+      shade.saturation = saturation
+    },
+    onPrimaryLightnessUpdated({ value, lightness }) {
+      let shade = this.primaryShades.find(shade => shade.value === value)
       shade.lightness = lightness
     }
   }
