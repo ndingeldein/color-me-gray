@@ -112,7 +112,7 @@ export default {
     updateSaturation() {
       this.$emit('saturation-updated', {
         value: this.value,
-        hue: this.dataSaturation
+        saturation: this.dataSaturation
       })
     },
     incrementSaturation() {
@@ -136,7 +136,7 @@ export default {
     updateLightness() {
       this.$emit('lightness-updated', {
         value: this.value,
-        hue: this.dataLightness
+        lightness: this.dataLightness
       })
     },
     incrementLightness() {
