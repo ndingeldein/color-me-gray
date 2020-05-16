@@ -1,9 +1,20 @@
 <template>
-  <div>
+  <div class="group">
     <div
-      class="h-24 w-24 rounded shadow-inner mb-2"
+      class=" h-24 w-24 rounded shadow-inner mb-2 flex flex-col p-4 items-end justify-start"
       :style="backgroundColor"
-    ></div>
+    >
+      <span
+        class="text-white block mb-2 text-md leading-none font-bold opacity-0 group-hover:opacity-50"
+      >
+        {{ contrastRatioLight }}
+      </span>
+      <span
+        class="text-black block mb-2 text-md leading-none font-bold opacity-0 group-hover:opacity-50"
+      >
+        {{ contrastRatioDark }}
+      </span>
+    </div>
     <div class="text-gray-800 leading-none pl-1">
       <div class="font-semibold text-sm">{{ value }}</div>
       <div class="mt-1 font-normal opacity-75 text-xs is-flex">
@@ -40,6 +51,60 @@
 </template>
 
 <script>
+function luminance(r, g, b) {
+  var a = [r, g, b].map(function(v) {
+    v /= 255
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4)
+  })
+  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722
+}
+
+function HSLToRGB(h, s, l) {
+  s /= 100
+  l /= 100
+
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+    m = l - c / 2,
+    r = 0,
+    g = 0,
+    b = 0
+
+  if (0 <= h && h < 60) {
+    r = c
+    g = x
+    b = 0
+  } else if (60 <= h && h < 120) {
+    r = x
+    g = c
+    b = 0
+  } else if (120 <= h && h < 180) {
+    r = 0
+    g = c
+    b = x
+  } else if (180 <= h && h < 240) {
+    r = 0
+    g = x
+    b = c
+  } else if (240 <= h && h < 300) {
+    r = x
+    g = 0
+    b = c
+  } else if (300 <= h && h < 360) {
+    r = c
+    g = 0
+    b = x
+  }
+
+  return {
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255)
+  }
+
+  // return 'rgb(' + +r + ',' + +g + ',' + +b + ')'
+}
+
 export default {
   name: 'ColorBox',
   props: {
@@ -82,6 +147,28 @@ export default {
     },
     backgroundColor() {
       return `background-color: hsl(${this.dataHue}, ${this.dataSaturation}%, ${this.dataLightness}%);`
+    },
+    contrastRatioLight() {
+      let rgb = HSLToRGB(this.dataHue, this.dataSaturation, this.dataLightness)
+      let lum1 = luminance(rgb.r, rgb.g, rgb.b)
+      let lum2 = 1
+      const ratio =
+        lum1 > lum2
+          ? (lum2 + 0.05) / (lum1 + 0.05)
+          : (lum1 + 0.05) / (lum2 + 0.05)
+
+      return (Math.floor((1 / ratio) * 100) / 100).toFixed(2)
+    },
+    contrastRatioDark() {
+      let rgb = HSLToRGB(this.dataHue, this.dataSaturation, this.dataLightness)
+      let lum1 = luminance(rgb.r, rgb.g, rgb.b)
+      let lum2 = 0
+      const ratio =
+        lum1 > lum2
+          ? (lum2 + 0.05) / (lum1 + 0.05)
+          : (lum1 + 0.05) / (lum2 + 0.05)
+
+      return (Math.floor((1 / ratio) * 100) / 100).toFixed(2)
     }
   },
   methods: {

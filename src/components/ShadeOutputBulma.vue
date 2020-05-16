@@ -3,9 +3,9 @@
     <div class="w-full language-css rounded text-white py-8 px-10">
       <pre
         class="w-full language-css text-md leading-loose family-mono flex p-0"
-      ><code class=""><span v-for="(shade, index) in primaryShades" :key="shade.title" class=""><span class="text-grey-200">$primary-{{ (index + 1) }}00:  </span><span class="text-blue-500">hsl</span><span class="text-blue-200">(<span class="text-red-400">{{ shade.hue }}</span>, <span class="text-red-400">{{ shade.saturation }}%</span>, <span class="text-red-400">{{ shade.lightness }}%</span>)</span>
+      ><code class=""><span v-for="(shade, index) in primaryShades" :key="shade.title" class=""><span class="text-grey-200">$primary-{{ (index + 1) }}00:  </span><span class="text-blue-500">hsl</span><span class="text-blue-200">(<span class="text-red-400">{{ shade.hue }}</span>, <span class="text-red-400">{{ shade.saturation }}%</span>, <span class="text-red-400">{{ shade.lightness }}%</span>) <span class="text-gray-600">/* {{ shade.hex }} */</span></span>
 </span>
-<span v-for="shade in shades" :key="shade.value" class=""><span class="text-grey-200">{{ getSassVar(shade.value) }}: {{ getSpaces(shade.value) }}</span><span class="text-blue-500">hsl</span><span class="text-blue-200">(<span class="text-red-400">{{ shade.hue }}</span>, <span class="text-red-400">{{ shade.saturation }}%</span>, <span class="text-red-400">{{ shade.lightness }}%</span>)</span>
+<span v-for="shade in shades" :key="shade.value" class=""><span class="text-grey-200">{{ getSassVar(shade.value) }}: {{ getSpaces(shade.value) }}</span><span class="text-blue-500">hsl</span><span class="text-blue-200">(<span class="text-red-400">{{ shade.hue }}</span>, <span class="text-red-400">{{ shade.saturation }}%</span>, <span class="text-red-400">{{ shade.lightness }}%</span>) <span class="text-gray-600">/* {{ shade.hex }} */</span></span>
 </span></code></pre>
     </div>
   </div>

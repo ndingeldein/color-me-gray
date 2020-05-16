@@ -16,6 +16,32 @@
             <span class="font-mono">&nbsp;&nbsp;&nbsp;&nbsp;0° 120° 240°</span>
           </p>
         </div>
+        <div
+          class="bg-white rounded shadow-lg px-6 py-4 mb-4 text-sm ml-4 font-mono"
+        >
+          <p class="mb-2 text-gray-700 flex items-baseline">
+            <strong class="font-semibold text-gray-600">AA:&nbsp;&nbsp;</strong>
+            <span class="font-mono"
+              >4.5:1
+              <span class=""
+                >&nbsp;&nbsp;&nbsp;3:1
+                <span class="text-gray-600 text-xs italic">18pt</span></span
+              ></span
+            >
+          </p>
+          <p class="text-gray-700 flex justify-between items-baseline">
+            <strong class="font-semibold text-gray-800"
+              >AAA:&nbsp;&nbsp;&nbsp;</strong
+            >
+            <span class="font-mono"
+              >7:1
+              <span class=""
+                >&nbsp;4.5:1
+                <span class="text-gray-600 text-xs italic">18pt</span></span
+              ></span
+            >
+          </p>
+        </div>
       </div>
 
       <Shades
